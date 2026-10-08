@@ -3392,7 +3392,7 @@ body:not(.fullscreen-mode) #editorView .image-thumb-title { padding: 3px 9px; bo
   #projectManagerView .project-card-name { overflow-wrap: anywhere; }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; } }
 </style>
-<link rel="stylesheet" href="notes/notes-editor.css?v=1.23.19">
+<link rel="stylesheet" href="notes/notes-editor.css?v=1.23.20">
 <style>
 /* Favorite affordances and tighter project card framing. */
 #projectManagerView .project-card {min-height:0;grid-template-rows:176px auto;}
@@ -4762,7 +4762,7 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
       const firebasePendingDeletesMetaKey = 'firebase-pending-deletes-v1';
       const firebasePendingRecordsMetaKey = 'firebase-pending-records-v1';
       const projectVersion = 2;
-      const APP_VERSION = '1.23.19';
+      const APP_VERSION = '1.23.20';
       const projectMigrationMetaKey = 'project-migration-v1';
       const floatingToolbarStorageKey = 'fisa-atelier-toolbar-position';
       const manualProjectExportedAtStorageKey = 'fisa-atelier-last-manual-export-at';
@@ -12186,9 +12186,9 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
   </script>
 
 <script src="notes/pdf-lib.min.js"></script>
-<script src="notes/notes-editor.js?v=1.23.19"></script>
-<link rel="stylesheet" href="inventory/inventory.css?v=1.23.19">
-<script src="inventory/inventory.js?v=1.23.19"></script>
+<script src="notes/notes-editor.js?v=1.23.20"></script>
+<link rel="stylesheet" href="inventory/inventory.css?v=1.23.20">
+<script src="inventory/inventory.js?v=1.23.20"></script>
 
 <style id="workspace-account-notes-layout-v1238">
   #workspaceNotes .workspace-notes-heading {
@@ -12804,6 +12804,29 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
     #workspaceNotes .workspace-notes-heading>.workspace-notes-actions {padding:3px;border-radius:15px}
     #workspaceNotes #workspaceAddNote {min-width:150px;min-height:48px;padding:0 13px!important;font-size:.78rem!important}
     #workspaceInventory[data-inventory-view="folders"] .workspace-inventory-heading {grid-template-columns:42px minmax(0,1fr) auto}
+  }
+</style><style id="full-app-waves-and-note-button-v12320">
+  /* Apply the flowing background to every screen behind its existing surfaces. */
+  body {
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 1000' preserveAspectRatio='none'%3E%3Cpath fill='%23dce9f6' fill-opacity='.52' d='M0 150C205 25 390 92 590 166c220 81 390 90 575 3 160-70 285-93 435-45v876H0Z'/%3E%3Cpath fill='%23f9fbfe' fill-opacity='.58' d='M0 285c210-98 410-70 605 7 199 79 381 75 568 2 160-63 287-89 427-41v747H0Z'/%3E%3Cpath fill='%23cddded' fill-opacity='.25' d='M0 565c220-82 400-64 603 5 209 71 396 80 584 7 163-63 275-78 413-40v463H0Z'/%3E%3C/svg%3E")!important;
+    background-repeat:no-repeat!important;background-size:100% 100vh!important;
+    background-position:top center!important;background-attachment:fixed!important;
+  }
+  /* Match the existing primary-button style; only add a little width. */
+  #workspaceNotes .workspace-notes-heading>.workspace-notes-actions {
+    padding:0!important;border:0!important;border-radius:0!important;
+    background:transparent!important;box-shadow:none!important;
+  }
+  #workspaceNotes #workspaceAddNote {
+    width:176px!important;min-width:0!important;
+    min-height:var(--ds-control-height,44px)!important;padding:11px 17px!important;
+    border-radius:var(--ds-radius-md,13px)!important;font-size:.92rem!important;
+    box-shadow:var(--ds-shadow-sm,0 1px 2px rgba(31,49,69,.08))!important;
+    font-weight:600;line-height:1.4;gap:var(--ds-space-2,10px);
+  }
+  #workspaceNotes #workspaceAddNote svg {width:19px;height:19px}
+  @media(max-width:620px) {
+    #workspaceNotes #workspaceAddNote {width:164px!important}
   }
 </style></body>
 </html>
