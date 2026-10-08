@@ -3392,7 +3392,7 @@ body:not(.fullscreen-mode) #editorView .image-thumb-title { padding: 3px 9px; bo
   #projectManagerView .project-card-name { overflow-wrap: anywhere; }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; } }
 </style>
-<link rel="stylesheet" href="notes/notes-editor.css?v=1.23.11">
+<link rel="stylesheet" href="notes/notes-editor.css?v=1.23.12">
 <style>
 /* Favorite affordances and tighter project card framing. */
 #projectManagerView .project-card {min-height:0;grid-template-rows:176px auto;}
@@ -4758,7 +4758,7 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
       const firebasePendingDeletesMetaKey = 'firebase-pending-deletes-v1';
       const firebasePendingRecordsMetaKey = 'firebase-pending-records-v1';
       const projectVersion = 2;
-      const APP_VERSION = '1.23.11';
+      const APP_VERSION = '1.23.12';
       const projectMigrationMetaKey = 'project-migration-v1';
       const floatingToolbarStorageKey = 'fisa-atelier-toolbar-position';
       const manualProjectExportedAtStorageKey = 'fisa-atelier-last-manual-export-at';
@@ -12182,9 +12182,9 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
   </script>
 
 <script src="notes/pdf-lib.min.js"></script>
-<script src="notes/notes-editor.js?v=1.23.11"></script>
-<link rel="stylesheet" href="inventory/inventory.css?v=1.23.11">
-<script src="inventory/inventory.js?v=1.23.11"></script>
+<script src="notes/notes-editor.js?v=1.23.12"></script>
+<link rel="stylesheet" href="inventory/inventory.css?v=1.23.12">
+<script src="inventory/inventory.js?v=1.23.12"></script>
 
 <style id="workspace-account-notes-layout-v1238">
   #workspaceNotes .workspace-notes-heading {
@@ -12473,6 +12473,91 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
   @media(max-width:1100px) {
     #projectManagerView .project-manager-heading {grid-template-columns:minmax(0,1fr) auto!important;grid-template-areas:"copy actions" "search search" "filters filters" "controls controls" "divider divider"!important;}
     #workspaceNotes > .workspace-notes-heading {grid-template-columns:minmax(0,1fr) auto!important;grid-template-areas:"copy actions" "search search" "filters filters" "controls controls" "divider divider"!important;}
+  }
+</style>
+
+<style id="layout-quality-pass-v12312">
+  /* Keep project and note filters on compact, evenly weighted chips. */
+  #projectManagerView .project-status-filters,
+  #workspaceNotes .manager-notes-filters {gap:6px!important}
+  #projectManagerView .project-status-filter {
+    min-height:33px!important;padding:6px 9px!important;font-size:.73rem!important;
+  }
+  #projectManagerView .project-status-filter .manager-filter-count {
+    min-width:20px;height:20px;padding:0 5px;font-size:.7rem;
+  }
+  #workspaceNotes .manager-notes-filters button {
+    min-height:36px;padding:7px 10px;font-size:.75rem;
+  }
+  .manager-view-controls {gap:8px!important}
+  .manager-sort-label {max-width:100%;}
+
+  /* The folder search must actually fill its grid track; older flex rules left it narrow. */
+  #workspaceInventory[data-inventory-view="folder"] .inventory-search-panel {
+    width:100%;box-sizing:border-box;gap:12px!important;padding:14px 16px!important;
+  }
+  #workspaceInventory[data-inventory-view="folder"] .inventory-search-row {
+    display:grid!important;grid-template-columns:max-content minmax(0,1fr)!important;
+    align-items:center!important;gap:14px!important;width:100%;min-width:0;
+  }
+  #workspaceInventory[data-inventory-view="folder"] .workspace-inventory-breadcrumb {
+    min-width:0;max-width:100%;flex-wrap:nowrap;
+  }
+  #workspaceInventory[data-inventory-view="folder"] .workspace-inventory-breadcrumb>span {
+    min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  #workspaceInventory[data-inventory-view="folder"] .inventory-search-row>.manager-search {
+    display:flex!important;position:relative!important;inset:auto!important;flex:1 1 auto!important;
+    width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;
+    box-sizing:border-box;
+  }
+  #workspaceInventory[data-inventory-view="folder"] .inventory-search-row>.manager-search input {
+    display:block;width:100%!important;max-width:none!important;min-width:0!important;
+    flex:1 1 auto!important;box-sizing:border-box;
+  }
+  #workspaceInventory[data-inventory-view="folder"] #workspaceInventoryList:has(.inventory-empty) {
+    grid-template-columns:minmax(0,1fr)!important;grid-auto-rows:auto!important;
+    align-items:stretch;min-height:0;
+  }
+  #workspaceInventory[data-inventory-view="folder"] .inventory-empty {
+    min-height:144px;padding:24px!important;align-content:center;
+    border-radius:16px;background:linear-gradient(145deg,#fff,#f7f9fb);
+  }
+  #workspaceInventory[data-inventory-view="folder"] .inventory-empty-add {
+    display:inline-flex!important;align-items:center;justify-content:center;
+    width:auto!important;min-width:0!important;min-height:42px!important;height:auto!important;
+    padding:9px 15px!important;align-self:center;grid-column:auto!important;grid-row:auto!important;
+    border-radius:11px!important;
+  }
+
+  @media(max-width:900px) {
+    #workspaceInventory[data-inventory-view="folder"] .inventory-search-row {
+      grid-template-columns:minmax(0,1fr)!important;gap:10px!important;
+    }
+    #workspaceInventory[data-inventory-view="folder"] .workspace-inventory-breadcrumb {width:100%}
+  }
+  @media(max-width:760px) {
+    #workspaceInventory[data-inventory-view="folder"] .inventory-search-panel {
+      padding:12px!important;border-radius:15px!important;
+    }
+    #workspaceInventory[data-inventory-view="folder"] .inventory-search-row>.manager-search,
+    #workspaceInventory[data-inventory-view="folder"] .inventory-search-row>.manager-search input {
+      width:100%!important;max-width:none!important;min-width:0!important;
+    }
+    #workspaceInventory[data-inventory-view="folder"] .inventory-dimension-filters {
+      grid-template-columns:minmax(0,1fr) 14px minmax(0,1fr)!important;
+    }
+    #workspaceInventory[data-inventory-view="folder"] .inventory-filter-mode {grid-column:1/-1!important}
+    #workspaceInventory[data-inventory-view="folder"] .inventory-empty {min-height:130px;padding:20px 14px!important}
+    #projectManagerView .project-manager-content,
+    #workspaceNotes {min-width:0}
+  }
+  @media(max-width:560px) {
+    #projectManagerView .project-status-filters,
+    #workspaceNotes .manager-notes-filters {max-width:100%;overflow-x:auto;flex-wrap:nowrap!important;padding:2px 1px 5px;scrollbar-width:thin}
+    #projectManagerView .project-status-filter,
+    #workspaceNotes .manager-notes-filters button {flex:0 0 auto;white-space:nowrap}
+    #workspaceNotes .manager-view-controls {justify-content:flex-end}
   }
 </style>
 </body>
