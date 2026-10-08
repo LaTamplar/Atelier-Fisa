@@ -4839,7 +4839,7 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
         const name = user?.displayName || googleProfile?.displayName || user?.email || (googleDriveConnected ? 'Google Drive' : 'Spațiul tău');
         const profilePhoto = user?.photoURL || googleProfile?.photoURL || '';
         const photoUrl = typeof profilePhoto === 'string' ? profilePhoto.trim() : '';
-        let status = 'Offline · salvat local';
+        let status = 'Salvat local pe acest dispozitiv';
         let state = 'local';
         if (user && navigator.onLine === false) {
           status = 'Offline · salvat local';
