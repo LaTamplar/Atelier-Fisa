@@ -3392,7 +3392,7 @@ body:not(.fullscreen-mode) #editorView .image-thumb-title { padding: 3px 9px; bo
   #projectManagerView .project-card-name { overflow-wrap: anywhere; }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; } }
 </style>
-<link rel="stylesheet" href="notes/notes-editor.css?v=1.23.21">
+<link rel="stylesheet" href="notes/notes-editor.css?v=1.23.22">
 <style>
 /* Favorite affordances and tighter project card framing. */
 #projectManagerView .project-card {min-height:0;grid-template-rows:176px auto;}
@@ -4020,6 +4020,7 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
         <button type="button" id="workspaceProjectsNav" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7V5h6l2 2h10v13H3Z"/></svg>Proiecte</button>
         <button type="button" id="workspaceNotesNav"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l3 3v15H6Z"/><path d="M9 10h6M9 14h6M9 18h4"/></svg>Notițe</button>
         <button type="button" id="workspaceInventoryNav"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5z"/><path d="m4.5 7.8 7.5 4.3 7.5-4.3M12 12v8.5M8 5.3l8 4.6"/></svg>Inventar</button>
+        <button type="button" id="workspaceAboutNav"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>Despre</button>
       </nav>
       <div class="workspace-sidebar-footer">
         <span class="workspace-footer-heading">Spațiul tău de lucru</span>
@@ -4029,7 +4030,7 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
     <section class="project-manager-content">
       <div class="project-manager-heading">
         <span class="manager-page-icon manager-page-icon-projects" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3.5 6.5h6l2 2H20a1.5 1.5 0 0 1 1.5 1.5v7.5a1.5 1.5 0 0 1-1.5 1.5h-16a1.5 1.5 0 0 1-1.5-1.5v-9a2 2 0 0 1 2-2Z"/><path d="M2.8 10h18.4"/></svg></span>
-        <div class="manager-heading-copy"><h2 id="projectManagerTitle" class="project-manager-page-title">Proiecte</h2><p class="project-manager-subtitle">Toate proiectele salvate local.</p></div>
+        <div class="manager-heading-copy"><h2 id="projectManagerTitle" class="project-manager-page-title">Proiecte</h2></div>
         <label class="manager-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.3"/><path d="m16 16 4.5 4.5"/></svg><input id="projectSearch" type="search" placeholder="Caută proiecte, note, etichete..." aria-label="Caută proiecte"></label>
         <div class="project-manager-actions project-section-actions" aria-label="Acțiuni proiecte">
         <button class="ui-action ui-action-secondary" type="button" id="pmImportProject"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M5 20h14"></path></svg><span>Importă proiect</span></button>
@@ -4053,7 +4054,7 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
     </section>
 
     <section id="workspaceNotes" hidden aria-labelledby="workspaceNotesTitle">
-      <div class="workspace-notes-heading"><span class="manager-page-icon manager-page-icon-notes" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3.5h8l4 4V20a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 4 20V5.5A2 2 0 0 1 6 3.5Z"/><path d="M14 3.8v4h4M8 12h8M8 15.5h8"/></svg></span><div class="manager-heading-copy"><h2 id="workspaceNotesTitle" class="project-manager-page-title" tabindex="-1">Notițe</h2><p class="project-manager-subtitle">Documente A4 cu text, schițe și imagini. Salvate pe acest dispozitiv.</p></div><label class="manager-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.3"/><path d="m16 16 4.5 4.5"/></svg><input id="workspaceNotesSearch" type="search" placeholder="Caută în notițe..." aria-label="Caută notițe"></label><div class="project-manager-actions project-section-actions workspace-notes-actions" aria-label="Acțiuni notițe"><button class="ui-action ui-action-primary" type="button" id="workspaceAddNote"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Notiță nouă</span></button></div><div class="manager-notes-filters" role="group" aria-label="Filtrează notițele"><button type="button" data-notes-filter="all" aria-pressed="true">Toate <span class="manager-filter-count" data-notes-count="all">0</span></button><button type="button" data-notes-filter="favorites" aria-pressed="false">Favorite <span class="manager-filter-count" data-notes-count="favorites">0</span></button></div><div class="manager-view-controls"><label class="manager-sort-label">Sortează după: <select id="notesSort" aria-label="Sortează notițele"><option value="updated">Ultima modificare</option><option value="name">Nume</option><option value="created">Data creării</option></select></label><div class="manager-layout-switch" role="group" aria-label="Afișare notițe"><button type="button" data-notes-layout="grid" aria-label="Grilă" aria-pressed="true">▦</button><button type="button" data-notes-layout="list" aria-label="Listă" aria-pressed="false">☷</button></div></div></div>
+      <div class="workspace-notes-heading"><span class="manager-page-icon manager-page-icon-notes" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3.5h8l4 4V20a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 4 20V5.5A2 2 0 0 1 6 3.5Z"/><path d="M14 3.8v4h4M8 12h8M8 15.5h8"/></svg></span><div class="manager-heading-copy"><h2 id="workspaceNotesTitle" class="project-manager-page-title" tabindex="-1">Notițe</h2></div><label class="manager-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.3"/><path d="m16 16 4.5 4.5"/></svg><input id="workspaceNotesSearch" type="search" placeholder="Caută în notițe..." aria-label="Caută notițe"></label><div class="project-manager-actions project-section-actions workspace-notes-actions" aria-label="Acțiuni notițe"><button class="ui-action ui-action-primary" type="button" id="workspaceAddNote"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Notiță nouă</span></button></div><div class="manager-notes-filters" role="group" aria-label="Filtrează notițele"><button type="button" data-notes-filter="all" aria-pressed="true">Toate <span class="manager-filter-count" data-notes-count="all">0</span></button><button type="button" data-notes-filter="favorites" aria-pressed="false">Favorite <span class="manager-filter-count" data-notes-count="favorites">0</span></button></div><div class="manager-view-controls"><label class="manager-sort-label">Sortează după: <select id="notesSort" aria-label="Sortează notițele"><option value="updated">Ultima modificare</option><option value="name">Nume</option><option value="created">Data creării</option></select></label><div class="manager-layout-switch" role="group" aria-label="Afișare notițe"><button type="button" data-notes-layout="grid" aria-label="Grilă" aria-pressed="true">▦</button><button type="button" data-notes-layout="list" aria-label="Listă" aria-pressed="false">☷</button></div></div></div>
       <p id="workspaceNotesStatus" role="status" aria-live="polite"></p>
       <div id="workspaceNotesList"></div>
     </section>
@@ -4062,7 +4063,7 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
       <div class="inventory-manager-toolbar">
       <div class="workspace-inventory-heading">
         <span class="manager-page-icon manager-page-icon-inventory" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 2.8 8.2 4.6v9.2L12 21.2l-8.2-4.6V7.4L12 2.8Z"/><path d="m3.8 7.5 8.2 4.7 8.2-4.7M12 12.2v9"/></svg></span>
-        <div class="manager-heading-copy"><h2 id="workspaceInventoryTitle" class="project-manager-page-title" tabindex="-1">Inventar</h2><p class="project-manager-subtitle">Păstrează la îndemână imaginile și dimensiunile obiectelor.</p></div>
+        <div class="manager-heading-copy"><h2 id="workspaceInventoryTitle" class="project-manager-page-title" tabindex="-1">Inventar</h2></div>
         <label class="manager-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.3"/><path d="m16 16 4.5 4.5"/></svg><input id="workspaceInventorySearch" type="search" placeholder="Caută după nume sau dimensiuni..." aria-label="Caută materiale după nume sau dimensiuni"></label>
         <div class="project-manager-actions project-section-actions"><button class="ui-action ui-action-primary" type="button" id="workspaceInventoryAdd"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Adaugă material</span></button></div>
       </div>
@@ -4081,6 +4082,34 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
     </div>
     <p id="workspaceInventoryStatus" class="workspace-inventory-status" role="status" aria-live="polite">Salvat local pe acest dispozitiv.</p>
     <div id="workspaceInventoryList" class="workspace-inventory-grid" aria-live="polite"></div>
+    </section>
+    <section id="workspaceAbout" class="workspace-about" hidden aria-labelledby="workspaceAboutTitle">
+      <header class="about-hero">
+        <span class="about-hero-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="m4.5 7.8 7.5 4.4 7.5-4.4M12 12.2V21M8 5.4l8 4.6"/></svg></span>
+        <div><p class="about-eyebrow">La-Tâmplar · Mobilă la comandă</p><h2 id="workspaceAboutTitle" class="project-manager-page-title" tabindex="-1">Despre aplicație</h2><p class="about-intro">Un spațiu de lucru pentru organizarea proiectelor de mobilier, a notițelor de atelier și a materialelor folosite.</p></div>
+      </header>
+      <div class="about-feature-grid">
+        <article class="about-feature-card">
+          <span class="about-feature-number">01</span><h3>Proiecte</h3>
+          <p>Adună într-un singur loc lucrările și informațiile fiecărui client. Creează proiecte, atașează fotografii și schițe, urmărește stadiul lucrării și marchează favoritele.</p>
+          <ul><li>Caută după nume, note sau etichete.</li><li>Filtrează după stadiu și sortează după nume ori modificare.</li><li>Importă și exportă proiecte pentru a le muta sau păstra în siguranță.</li></ul>
+        </article>
+        <article class="about-feature-card">
+          <span class="about-feature-number">02</span><h3>Notițe</h3>
+          <p>Ține măsurători, idei și indicații în documente cu pagini A4, ușor de completat și de revăzut.</p>
+          <ul><li>Adaugă text, desene, forme, imagini și pagini PDF.</li><li>Organizează notițele cu căutare, favorite și sortare.</li><li>Exportă notițele pentru consultare sau trimitere.</li></ul>
+        </article>
+        <article class="about-feature-card">
+          <span class="about-feature-number">03</span><h3>Inventar</h3>
+          <p>Păstrează mostrele și datele materialelor în dosare pe care le organizezi după cum lucrezi.</p>
+          <ul><li>Salvează imaginea, denumirea, furnizorul și dimensiunile.</li><li>Caută după nume și filtrează după lungime și lățime.</li><li>Deschide imaginea pentru a vedea detaliile materialului.</li></ul>
+        </article>
+      </div>
+      <section class="about-sync-card" aria-labelledby="aboutSyncTitle">
+        <span class="about-sync-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .3-8A6 6 0 0 0 6 9a4.5 4.5 0 0 0 1 9Z"/><path d="m9 13 2 2 4-4"/></svg></span>
+        <div><h3 id="aboutSyncTitle">Salvare și sincronizare</h3><p>Lucrează local pe dispozitiv sau conectează același cont Google pe PC și tabletă pentru a sincroniza proiectele, notițele și inventarul. Verifică starea conexiunii din „Spațiul tău de lucru”, în meniul lateral.</p></div>
+      </section>
+      <p class="about-footer-note">Aplicația este gândită să păstreze informațiile atelierului clare, accesibile și ușor de găsit.</p>
     </section>
   </div>
   <div id="cloudAccountDialog" class="save-dialog-backdrop" hidden>
@@ -4762,7 +4791,7 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
       const firebasePendingDeletesMetaKey = 'firebase-pending-deletes-v1';
       const firebasePendingRecordsMetaKey = 'firebase-pending-records-v1';
       const projectVersion = 2;
-      const APP_VERSION = '1.23.21';
+      const APP_VERSION = '1.23.22';
       const projectMigrationMetaKey = 'project-migration-v1';
       const floatingToolbarStorageKey = 'fisa-atelier-toolbar-position';
       const manualProjectExportedAtStorageKey = 'fisa-atelier-last-manual-export-at';
@@ -12186,9 +12215,9 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
   </script>
 
 <script src="notes/pdf-lib.min.js"></script>
-<script src="notes/notes-editor.js?v=1.23.21"></script>
-<link rel="stylesheet" href="inventory/inventory.css?v=1.23.21">
-<script src="inventory/inventory.js?v=1.23.21"></script>
+<script src="notes/notes-editor.js?v=1.23.22"></script>
+<link rel="stylesheet" href="inventory/inventory.css?v=1.23.22">
+<script src="inventory/inventory.js?v=1.23.22"></script>
 
 <style id="workspace-account-notes-layout-v1238">
   #workspaceNotes .workspace-notes-heading {
@@ -12828,7 +12857,54 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
   @media(max-width:620px) {
     #workspaceNotes #workspaceAddNote {width:150px!important}
   }
-</style></body>
+</style><style id="about-page-v12322">
+  #workspaceAbout[hidden]{display:none!important}
+  #projectManagerView>#workspaceAbout{grid-column:2;grid-row:1;min-width:0;padding:var(--ds-space-6,24px) var(--ds-space-8,32px) 24px;color:var(--ds-ink,#25384b)}
+  #workspaceAbout .about-hero{display:grid;grid-template-columns:64px minmax(0,1fr);align-items:center;gap:18px;padding:26px 28px;border:1px solid var(--ds-line,#d8e2ec);border-radius:22px;background:linear-gradient(135deg,rgba(255,255,255,.96),rgba(239,246,252,.94));box-shadow:0 12px 30px rgba(38,67,96,.07)}
+  #workspaceAbout .about-hero-icon{display:grid;place-items:center;width:62px;height:62px;border:1px solid #d4e2f0;border-radius:19px;background:linear-gradient(145deg,#fff,#edf4fb);color:var(--ds-blue,#3476b8);box-shadow:0 5px 14px rgba(49,95,145,.09)}
+  #workspaceAbout .about-hero-icon svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  #workspaceAbout .about-eyebrow{margin:0 0 5px;color:var(--ds-muted,#6b7f93);font-size:11px;font-weight:750;letter-spacing:.12em;text-transform:uppercase}
+  #workspaceAbout .about-hero .project-manager-page-title{margin:0;font-size:clamp(30px,3vw,42px)}
+  #workspaceAbout .about-intro{max-width:760px;margin:8px 0 0;color:var(--ds-muted,#6b7f93);font-size:15px;line-height:1.65}
+  #workspaceAbout .about-feature-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:18px}
+  #workspaceAbout .about-feature-card{position:relative;min-width:0;padding:22px;border:1px solid var(--ds-line,#d8e2ec);border-radius:18px;background:rgba(255,255,255,.88);box-shadow:0 8px 22px rgba(38,67,96,.055)}
+  #workspaceAbout .about-feature-number{display:inline-grid;place-items:center;width:34px;height:28px;border:1px solid #d6e4f2;border-radius:9px;background:#f1f6fb;color:var(--ds-blue,#3476b8);font-size:11px;font-weight:800;letter-spacing:.06em}
+  #workspaceAbout .about-feature-card h3,#workspaceAbout .about-sync-card h3{margin:14px 0 8px;color:var(--ds-navy,#1f3145);font-size:19px;letter-spacing:-.02em}
+  #workspaceAbout .about-feature-card p,#workspaceAbout .about-sync-card p{margin:0;color:var(--ds-muted,#6b7f93);font-size:13px;line-height:1.65}
+  #workspaceAbout .about-feature-card ul{display:grid;gap:8px;margin:15px 0 0;padding:13px 0 0;border-top:1px solid #e6edf4;list-style:none}
+  #workspaceAbout .about-feature-card li{position:relative;padding-left:16px;color:var(--ds-ink,#33475b);font-size:12px;line-height:1.5}
+  #workspaceAbout .about-feature-card li::before{position:absolute;left:0;top:.55em;width:6px;height:6px;border-radius:50%;background:#5c91c2;content:""}
+  #workspaceAbout .about-sync-card{display:grid;grid-template-columns:42px minmax(0,1fr);align-items:start;gap:14px;margin-top:16px;padding:19px 22px;border:1px solid #d5e4f2;border-radius:17px;background:linear-gradient(120deg,#f4f8fc,#fff)}
+  #workspaceAbout .about-sync-icon{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:#e9f2fb;color:var(--ds-blue,#3476b8)}
+  #workspaceAbout .about-sync-icon svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  #workspaceAbout .about-sync-card h3{margin:0 0 5px;font-size:15px}
+  #workspaceAbout .about-footer-note{margin:14px 2px 0;color:var(--ds-muted,#6b7f93);font-size:12px;line-height:1.5}
+  #projectManagerView .workspace-nav button{touch-action:manipulation}
+  @media(max-width:1100px){#projectManagerView>#workspaceAbout{grid-column:2;padding:var(--ds-space-6,20px) var(--ds-space-4,16px) 18px}#workspaceAbout .about-feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:700px){#projectManagerView>#workspaceAbout{grid-column:1;grid-row:2;padding:4px 0 16px}#workspaceAbout .about-hero{grid-template-columns:46px minmax(0,1fr);gap:12px;padding:17px;border-radius:17px}#workspaceAbout .about-hero-icon{width:44px;height:44px;border-radius:14px}#workspaceAbout .about-hero-icon svg{width:23px;height:23px}#workspaceAbout .about-intro{font-size:13px}#workspaceAbout .about-feature-grid{grid-template-columns:minmax(0,1fr);gap:11px;margin-top:12px}#workspaceAbout .about-feature-card{padding:17px}#workspaceAbout .about-feature-card h3{margin-top:11px}#workspaceAbout .about-sync-card{padding:15px;grid-template-columns:36px minmax(0,1fr);gap:11px}}
+</style>
+<script id="about-navigation-v12322">
+(() => {
+  const aboutNav=document.getElementById('workspaceAboutNav');
+  const aboutPanel=document.getElementById('workspaceAbout');
+  const projectsPanel=document.querySelector('#projectManagerView > .project-manager-content');
+  const notesPanel=document.getElementById('workspaceNotes');
+  const inventoryPanel=document.getElementById('workspaceInventory');
+  const navIds=['workspaceProjectsNav','workspaceNotesNav','workspaceInventoryNav'];
+  if(!aboutNav||!aboutPanel||!projectsPanel||!notesPanel||!inventoryPanel)return;
+  const leaveAbout=()=>{aboutPanel.hidden=true;aboutNav.removeAttribute('aria-current');};
+  aboutNav.addEventListener('click',()=>{
+    projectsPanel.hidden=true;notesPanel.hidden=true;inventoryPanel.hidden=true;aboutPanel.hidden=false;
+    navIds.forEach(id=>document.getElementById(id)?.removeAttribute('aria-current'));
+    aboutNav.setAttribute('aria-current','page');
+    document.title='Despre aplicație | La-Tâmplar';
+    window.dispatchEvent(new CustomEvent('atelier-notes-inactive'));
+    document.getElementById('workspaceAboutTitle')?.focus({preventScroll:true});
+  });
+  navIds.forEach(id=>document.getElementById(id)?.addEventListener('click',leaveAbout,{capture:true}));
+})();
+</script>
+</body>
 </html>
 
 
