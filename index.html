@@ -3392,7 +3392,7 @@ body:not(.fullscreen-mode) #editorView .image-thumb-title { padding: 3px 9px; bo
   #projectManagerView .project-card-name { overflow-wrap: anywhere; }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; } }
 </style>
-<link rel="stylesheet" href="notes/notes-editor.css?v=1.23.14">
+<link rel="stylesheet" href="notes/notes-editor.css?v=1.23.15">
 <style>
 /* Favorite affordances and tighter project card framing. */
 #projectManagerView .project-card {min-height:0;grid-template-rows:176px auto;}
@@ -4762,7 +4762,7 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
       const firebasePendingDeletesMetaKey = 'firebase-pending-deletes-v1';
       const firebasePendingRecordsMetaKey = 'firebase-pending-records-v1';
       const projectVersion = 2;
-      const APP_VERSION = '1.23.14';
+      const APP_VERSION = '1.23.15';
       const projectMigrationMetaKey = 'project-migration-v1';
       const floatingToolbarStorageKey = 'fisa-atelier-toolbar-position';
       const manualProjectExportedAtStorageKey = 'fisa-atelier-last-manual-export-at';
@@ -12186,9 +12186,9 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
   </script>
 
 <script src="notes/pdf-lib.min.js"></script>
-<script src="notes/notes-editor.js?v=1.23.14"></script>
-<link rel="stylesheet" href="inventory/inventory.css?v=1.23.14">
-<script src="inventory/inventory.js?v=1.23.14"></script>
+<script src="notes/notes-editor.js?v=1.23.15"></script>
+<link rel="stylesheet" href="inventory/inventory.css?v=1.23.15">
+<script src="inventory/inventory.js?v=1.23.15"></script>
 
 <style id="workspace-account-notes-layout-v1238">
   #workspaceNotes .workspace-notes-heading {
@@ -12574,7 +12574,7 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
     width:100%!important;max-width:none!important;min-width:0!important;
   }
 </style>
-<style id="unified-manager-headers-v12314">
+<style id="unified-manager-headers-v12315">
   /* One consistent toolbar language across projects, notes and inventory. */
   #projectManagerView .project-manager-heading,
   #projectManagerView #workspaceNotes .workspace-notes-heading {
@@ -12703,6 +12703,49 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
     #projectManagerView .manager-heading-copy .project-manager-subtitle {font-size:.72rem;line-height:1.35}
     #workspaceInventory .manager-heading-copy .project-manager-subtitle {font-size:.72rem;line-height:1.35}
     #projectManagerView .project-manager-heading #pmImportProject span {display:none}
+  }
+</style>
+<style id="manager-header-grid-fix-v12315">
+  /* Keep the filter row horizontal and inside the available content width. */
+  #projectManagerView .project-manager-heading>.project-status-filters {
+    grid-column:1/4!important;grid-row:2!important;grid-area:auto!important;
+    width:100%!important;max-width:100%!important;flex-wrap:nowrap!important;
+    overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;
+  }
+  #projectManagerView .project-manager-heading>.manager-view-controls {
+    grid-column:4!important;grid-row:2!important;grid-area:auto!important;
+    justify-self:end!important;max-width:100%;
+  }
+  #projectManagerView #workspaceNotes .workspace-notes-heading>.manager-notes-filters {
+    grid-column:1/4!important;grid-row:2!important;grid-area:auto!important;
+    width:100%!important;max-width:100%!important;flex-wrap:nowrap!important;
+    overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;
+  }
+  #projectManagerView #workspaceNotes .workspace-notes-heading>.manager-view-controls {
+    grid-column:4!important;grid-row:2!important;grid-area:auto!important;
+    justify-self:end!important;max-width:100%;
+  }
+  @media(min-width:1121px) and (max-width:1400px) {
+    #projectManagerView .project-manager-heading,
+    #projectManagerView #workspaceNotes .workspace-notes-heading {
+      grid-template-columns:48px minmax(140px,.65fr) minmax(190px,1fr) auto!important;
+      column-gap:12px!important;
+    }
+    #projectManagerView .project-manager-heading>.project-section-actions,
+    #projectManagerView #workspaceNotes .workspace-notes-heading>.workspace-notes-actions {
+      gap:7px!important;
+    }
+  }
+  @media(max-width:1120px) {
+    #projectManagerView .project-manager-heading>.project-status-filters,
+    #projectManagerView #workspaceNotes .workspace-notes-heading>.manager-notes-filters {
+      grid-column:1/-1!important;grid-row:3!important;grid-area:auto!important;
+    }
+    #projectManagerView .project-manager-heading>.manager-view-controls,
+    #projectManagerView #workspaceNotes .workspace-notes-heading>.manager-view-controls {
+      grid-column:1/-1!important;grid-row:4!important;grid-area:auto!important;
+      justify-self:end!important;
+    }
   }
 </style>
 </body>
