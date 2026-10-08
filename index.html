@@ -3392,7 +3392,7 @@ body:not(.fullscreen-mode) #editorView .image-thumb-title { padding: 3px 9px; bo
   #projectManagerView .project-card-name { overflow-wrap: anywhere; }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; } }
 </style>
-<link rel="stylesheet" href="notes/notes-editor.css?v=1.23.12">
+<link rel="stylesheet" href="notes/notes-editor.css?v=1.23.13">
 <style>
 /* Favorite affordances and tighter project card framing. */
 #projectManagerView .project-card {min-height:0;grid-template-rows:176px auto;}
@@ -4758,7 +4758,7 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
       const firebasePendingDeletesMetaKey = 'firebase-pending-deletes-v1';
       const firebasePendingRecordsMetaKey = 'firebase-pending-records-v1';
       const projectVersion = 2;
-      const APP_VERSION = '1.23.12';
+      const APP_VERSION = '1.23.13';
       const projectMigrationMetaKey = 'project-migration-v1';
       const floatingToolbarStorageKey = 'fisa-atelier-toolbar-position';
       const manualProjectExportedAtStorageKey = 'fisa-atelier-last-manual-export-at';
@@ -12182,9 +12182,9 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
   </script>
 
 <script src="notes/pdf-lib.min.js"></script>
-<script src="notes/notes-editor.js?v=1.23.12"></script>
-<link rel="stylesheet" href="inventory/inventory.css?v=1.23.12">
-<script src="inventory/inventory.js?v=1.23.12"></script>
+<script src="notes/notes-editor.js?v=1.23.13"></script>
+<link rel="stylesheet" href="inventory/inventory.css?v=1.23.13">
+<script src="inventory/inventory.js?v=1.23.13"></script>
 
 <style id="workspace-account-notes-layout-v1238">
   #workspaceNotes .workspace-notes-heading {
@@ -12558,6 +12558,16 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
     #projectManagerView .project-status-filter,
     #workspaceNotes .manager-notes-filters button {flex:0 0 auto;white-space:nowrap}
     #workspaceNotes .manager-view-controls {justify-content:flex-end}
+  }
+</style>
+
+<style id="inventory-grid-placement-v12313">
+  #workspaceInventory[data-inventory-view="folder"] .inventory-search-row>.manager-search {
+    grid-column:auto!important;grid-row:auto!important;
+    justify-self:stretch!important;align-self:stretch!important;
+  }
+  #workspaceInventory[data-inventory-view="folder"] .inventory-search-row>.manager-search input {
+    width:100%!important;max-width:none!important;min-width:0!important;
   }
 </style>
 </body>
