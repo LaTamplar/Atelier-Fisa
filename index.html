@@ -3392,7 +3392,7 @@ body:not(.fullscreen-mode) #editorView .image-thumb-title { padding: 3px 9px; bo
   #projectManagerView .project-card-name { overflow-wrap: anywhere; }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; } }
 </style>
-<link rel="stylesheet" href="notes/notes-editor.css?v=1.23.15">
+<link rel="stylesheet" href="notes/notes-editor.css?v=1.23.16">
 <style>
 /* Favorite affordances and tighter project card framing. */
 #projectManagerView .project-card {min-height:0;grid-template-rows:176px auto;}
@@ -4762,7 +4762,7 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
       const firebasePendingDeletesMetaKey = 'firebase-pending-deletes-v1';
       const firebasePendingRecordsMetaKey = 'firebase-pending-records-v1';
       const projectVersion = 2;
-      const APP_VERSION = '1.23.15';
+      const APP_VERSION = '1.23.16';
       const projectMigrationMetaKey = 'project-migration-v1';
       const floatingToolbarStorageKey = 'fisa-atelier-toolbar-position';
       const manualProjectExportedAtStorageKey = 'fisa-atelier-last-manual-export-at';
@@ -12186,9 +12186,9 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
   </script>
 
 <script src="notes/pdf-lib.min.js"></script>
-<script src="notes/notes-editor.js?v=1.23.15"></script>
-<link rel="stylesheet" href="inventory/inventory.css?v=1.23.15">
-<script src="inventory/inventory.js?v=1.23.15"></script>
+<script src="notes/notes-editor.js?v=1.23.16"></script>
+<link rel="stylesheet" href="inventory/inventory.css?v=1.23.16">
+<script src="inventory/inventory.js?v=1.23.16"></script>
 
 <style id="workspace-account-notes-layout-v1238">
   #workspaceNotes .workspace-notes-heading {
@@ -12748,7 +12748,26 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
     }
   }
 </style>
-</body>
+<style id="manager-header-placement-final-v12316">
+  #projectManagerView .project-manager-heading>.project-status-filters,
+  #projectManagerView #workspaceNotes .workspace-notes-heading>.manager-notes-filters {
+    grid-column:1/4!important;grid-row:2!important;
+  }
+  #projectManagerView .project-manager-heading>.manager-view-controls,
+  #projectManagerView #workspaceNotes .workspace-notes-heading>.manager-view-controls {
+    grid-column:4!important;grid-row:2!important;
+  }
+  @media(max-width:1120px) {
+    #projectManagerView .project-manager-heading>.project-status-filters,
+    #projectManagerView #workspaceNotes .workspace-notes-heading>.manager-notes-filters {
+      grid-column:1/-1!important;grid-row:3!important;
+    }
+    #projectManagerView .project-manager-heading>.manager-view-controls,
+    #projectManagerView #workspaceNotes .workspace-notes-heading>.manager-view-controls {
+      grid-column:1/-1!important;grid-row:4!important;
+    }
+  }
+</style></body>
 </html>
 
 
