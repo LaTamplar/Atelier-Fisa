@@ -153,7 +153,7 @@
     renderMaterials();
     const inFolders=!activeCategory;
     panel.dataset.inventoryView=inFolders?'folders':'folder';
-    if(addButton)addButton.hidden=inFolders;
+    if(addButton)addButton.hidden=false;
     if(breadcrumbBack)breadcrumbBack.textContent='← Dosare';
     const subtitle=panel.querySelector('.workspace-inventory-heading .project-manager-subtitle');
     if(subtitle)subtitle.textContent=inFolders
