@@ -3392,7 +3392,7 @@ body:not(.fullscreen-mode) #editorView .image-thumb-title { padding: 3px 9px; bo
   #projectManagerView .project-card-name { overflow-wrap: anywhere; }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; } }
 </style>
-<link rel="stylesheet" href="notes/notes-editor.css?v=1.23.22">
+<link rel="stylesheet" href="notes/notes-editor.css?v=1.23.23">
 <style>
 /* Favorite affordances and tighter project card framing. */
 #projectManagerView .project-card {min-height:0;grid-template-rows:176px auto;}
@@ -4020,11 +4020,11 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
         <button type="button" id="workspaceProjectsNav" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7V5h6l2 2h10v13H3Z"/></svg>Proiecte</button>
         <button type="button" id="workspaceNotesNav"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l3 3v15H6Z"/><path d="M9 10h6M9 14h6M9 18h4"/></svg>Notițe</button>
         <button type="button" id="workspaceInventoryNav"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5z"/><path d="m4.5 7.8 7.5 4.3 7.5-4.3M12 12v8.5M8 5.3l8 4.6"/></svg>Inventar</button>
-        <button type="button" id="workspaceAboutNav"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>Despre</button>
       </nav>
       <div class="workspace-sidebar-footer">
-        <span class="workspace-footer-heading">Spațiul tău de lucru</span>
+        <span class="workspace-footer-heading">Cont și sincronizare</span>
         <button type="button" id="pmCloudAccount" class="workspace-sync-button" aria-label="Cont și sincronizare"><span class="workspace-sync-avatar"><img id="workspaceSyncPhoto" alt="" hidden><span id="workspaceSyncInitial">S</span></span><span class="workspace-sync-copy"><strong id="workspaceSyncName">Spațiul tău</strong><small><i id="workspaceSyncDot" aria-hidden="true"></i><span id="workspaceSyncStatus">Salvat pe acest dispozitiv</span></small></span><svg class="workspace-sync-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m7 4 6 6-6 6"/></svg></button>
+        <button type="button" id="workspaceAboutNav" class="workspace-about-button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>Despre aplicație</span></button>
       </div>
     </aside>
     <section class="project-manager-content">
@@ -4791,7 +4791,7 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
       const firebasePendingDeletesMetaKey = 'firebase-pending-deletes-v1';
       const firebasePendingRecordsMetaKey = 'firebase-pending-records-v1';
       const projectVersion = 2;
-      const APP_VERSION = '1.23.22';
+      const APP_VERSION = '1.23.23';
       const projectMigrationMetaKey = 'project-migration-v1';
       const floatingToolbarStorageKey = 'fisa-atelier-toolbar-position';
       const manualProjectExportedAtStorageKey = 'fisa-atelier-last-manual-export-at';
@@ -12215,9 +12215,9 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
   </script>
 
 <script src="notes/pdf-lib.min.js"></script>
-<script src="notes/notes-editor.js?v=1.23.22"></script>
-<link rel="stylesheet" href="inventory/inventory.css?v=1.23.22">
-<script src="inventory/inventory.js?v=1.23.22"></script>
+<script src="notes/notes-editor.js?v=1.23.23"></script>
+<link rel="stylesheet" href="inventory/inventory.css?v=1.23.23">
+<script src="inventory/inventory.js?v=1.23.23"></script>
 
 <style id="workspace-account-notes-layout-v1238">
   #workspaceNotes .workspace-notes-heading {
@@ -12904,6 +12904,72 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
   navIds.forEach(id=>document.getElementById(id)?.addEventListener('click',leaveAbout,{capture:true}));
 })();
 </script>
+<style id="about-footer-and-manager-controls-v12323">
+  /* Keep the secondary About destination at the very bottom of the sidebar. */
+  #projectManagerView .workspace-sidebar-footer::before{content:none!important;display:none!important}
+  #projectManagerView .workspace-sidebar-footer{justify-content:flex-end}
+  #projectManagerView .workspace-footer-heading{margin-bottom:0;color:#dce7f2;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  #projectManagerView .workspace-about-button{
+    display:flex;width:100%;min-height:42px;justify-content:flex-start;gap:11px;margin-top:2px;padding:9px 12px;
+    border:1px solid transparent;border-top-color:#ffffff1c;border-radius:10px;background:transparent;
+    color:#d4dfeb;box-shadow:none;font-size:13px;font-weight:600;letter-spacing:0;
+  }
+  #projectManagerView .workspace-about-button svg{width:17px;height:17px;flex:0 0 auto}
+  #projectManagerView .workspace-about-button:hover:not(:disabled){transform:none;border-color:#ffffff1c;background:#ffffff0d;color:#fff;box-shadow:none}
+  #projectManagerView .workspace-about-button[aria-current="page"]{border-color:#eef3f8;background:#eef3f8;color:#1f3145;box-shadow:0 4px 12px rgba(9,16,25,.10)}
+  #workspaceAbout .about-hero{position:relative;overflow:hidden;grid-template-columns:62px minmax(0,1fr);gap:20px;padding:28px 30px;border-radius:22px;background:linear-gradient(118deg,#fff 0%,#f7faff 58%,#edf4fb 100%)}
+  #workspaceAbout .about-hero::after{position:absolute;right:-55px;top:-112px;width:290px;height:290px;border:1px solid rgba(79,132,184,.11);border-radius:50%;box-shadow:0 0 0 28px rgba(79,132,184,.035),0 0 0 58px rgba(79,132,184,.025);content:"";pointer-events:none}
+  #workspaceAbout .about-hero>div{position:relative;z-index:1}
+  #workspaceAbout .about-eyebrow{margin-bottom:7px;color:#577b9f;font-size:10px;letter-spacing:.15em}
+  #workspaceAbout .about-intro{max-width:680px;font-size:14px;line-height:1.7}
+  #workspaceAbout .about-feature-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:16px}
+  #workspaceAbout .about-feature-card{display:flex;flex-direction:column;min-height:100%;padding:20px;border-radius:18px;background:linear-gradient(160deg,rgba(255,255,255,.98),rgba(248,251,254,.94));box-shadow:0 9px 24px rgba(37,67,97,.055)}
+  #workspaceAbout .about-feature-card::before{height:2px;margin:-20px -20px 16px;border-radius:18px 18px 0 0;background:linear-gradient(90deg,#4f84b8,#cbdff1 75%,transparent);content:""}
+  #workspaceAbout .about-feature-number{width:32px;height:26px;border-color:#dae7f3;border-radius:8px;background:#f3f7fb;color:#477aa9;font-size:10px}
+  #workspaceAbout .about-feature-card h3{margin:11px 0 7px;font-size:18px}
+  #workspaceAbout .about-feature-card p{font-size:12.5px;line-height:1.65}
+  #workspaceAbout .about-feature-card ul{flex:1;align-content:start;gap:7px;margin-top:12px;padding-top:12px}
+  #workspaceAbout .about-feature-card li{font-size:11.5px;line-height:1.5}
+  #workspaceAbout .about-sync-card{margin-top:14px;padding:17px 20px;background:linear-gradient(110deg,#edf5fc,#fff 75%);box-shadow:0 6px 18px rgba(37,67,97,.04)}
+  #workspaceAbout .about-footer-note{margin-top:12px;font-size:11px}
+  #projectManagerView .manager-view-controls{display:flex!important;align-items:center!important;gap:8px!important}
+  #projectManagerView .manager-sort-label{
+    display:inline-flex!important;align-items:center!important;gap:7px!important;box-sizing:border-box!important;
+    height:42px!important;min-height:42px!important;padding:3px 9px!important;border-radius:11px!important;
+    white-space:nowrap
+  }
+  #projectManagerView .manager-sort-label select{
+    box-sizing:border-box!important;height:32px!important;min-height:32px!important;padding:0 20px 0 5px!important;
+    border-radius:8px!important;font-size:12px!important;line-height:1.2!important
+  }
+  #projectManagerView .manager-layout-switch{
+    box-sizing:border-box!important;display:inline-flex!important;align-items:center!important;gap:3px!important;
+    height:42px!important;min-height:42px!important;padding:3px!important;border-radius:11px!important
+  }
+  #projectManagerView .manager-layout-switch button{
+    box-sizing:border-box!important;width:38px!important;min-width:38px!important;height:34px!important;min-height:34px!important;
+    padding:4px!important;border-radius:8px!important;line-height:1!important
+  }
+  @media(max-width:1100px){
+    #workspaceAbout .about-feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
+  @media(max-width:700px){
+    #projectManagerView .workspace-about-button{min-height:42px;margin-top:0}
+    #workspaceAbout .about-hero{padding:19px}
+    #workspaceAbout .about-hero::after{right:-155px;top:-145px}
+    #workspaceAbout .about-feature-grid{grid-template-columns:minmax(0,1fr);gap:11px}
+    #workspaceAbout .about-feature-card{min-height:0;padding:17px}
+    #workspaceAbout .about-feature-card::before{margin:-17px -17px 14px}
+    #workspaceAbout .about-sync-card{padding:15px}
+    #projectManagerView .manager-view-controls{width:auto;max-width:100%;gap:6px!important}
+    #projectManagerView .manager-sort-label{max-width:min(68vw,280px);gap:4px;padding-inline:7px!important;font-size:11px}
+    #projectManagerView .manager-sort-label select{max-width:42vw;font-size:11px!important}
+    #projectManagerView .manager-layout-switch button{width:34px!important;min-width:34px!important}
+  }
+  @media(max-width:390px){
+    #projectManagerView .manager-view-controls{flex-wrap:wrap}
+  }
+</style>
 </body>
 </html>
 
