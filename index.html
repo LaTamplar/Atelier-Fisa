@@ -3392,7 +3392,7 @@ body:not(.fullscreen-mode) #editorView .image-thumb-title { padding: 3px 9px; bo
   #projectManagerView .project-card-name { overflow-wrap: anywhere; }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; } }
 </style>
-<link rel="stylesheet" href="notes/notes-editor.css?v=1.23.5">
+<link rel="stylesheet" href="notes/notes-editor.css?v=1.23.6">
 <style>
 /* Favorite affordances and tighter project card framing. */
 #projectManagerView .project-card {min-height:0;grid-template-rows:176px auto;}
@@ -4624,6 +4624,8 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
       let pencilEditorRedoStack = [];
       let activePencilEditorStroke = null;
       let activePencilEditorPointerId = null;
+      let pencilEditorFrameRequest = null;
+      let pencilEditorRenderedPointCount = 0;
       let pencilEditorColor = '#2f2a24';
       let pencilEditorSize = 3;
       let pencilEditorEraser = false;
@@ -4667,7 +4669,7 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
       const firebasePendingDeletesMetaKey = 'firebase-pending-deletes-v1';
       const firebasePendingRecordsMetaKey = 'firebase-pending-records-v1';
       const projectVersion = 2;
-      const APP_VERSION = '1.23.5';
+      const APP_VERSION = '1.23.6';
       const projectMigrationMetaKey = 'project-migration-v1';
       const floatingToolbarStorageKey = 'fisa-atelier-toolbar-position';
       const manualProjectExportedAtStorageKey = 'fisa-atelier-last-manual-export-at';
@@ -9608,6 +9610,7 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
         if (activePencilEditorStroke) {
           drawNormalizedStroke(pencilEditorCtx, rect.width, rect.height, activePencilEditorStroke);
         }
+        pencilEditorRenderedPointCount = activePencilEditorStroke?.points?.length || 0;
       }
 
       function getPencilEditorSignature(strokesCollection = pencilEditorStrokes) {
@@ -9644,10 +9647,35 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
 
       function pointFromPencilEditorEvent(event) {
         const rect = pencilEditorCanvas.getBoundingClientRect();
+        if (!rect.width || !rect.height) return null;
         return {
           x: Math.min(1, Math.max(0, (event.clientX - rect.left) / rect.width)),
           y: Math.min(1, Math.max(0, (event.clientY - rect.top) / rect.height))
         };
+      }
+
+      function flushPencilEditorStrokeFrame({ cancelAnimation = false } = {}) {
+        if (cancelAnimation && pencilEditorFrameRequest !== null) {
+          window.cancelAnimationFrame(pencilEditorFrameRequest);
+          pencilEditorFrameRequest = null;
+        }
+        const stroke = activePencilEditorStroke;
+        const rect = pencilEditorCanvas.getBoundingClientRect();
+        if (!stroke || !rect.width || !rect.height) return;
+        const startIndex = Math.max(0, pencilEditorRenderedPointCount - 1);
+        if (startIndex < stroke.points.length) {
+          const segment = { ...stroke, points: stroke.points.slice(startIndex) };
+          drawNormalizedStroke(pencilEditorCtx, rect.width, rect.height, segment);
+          pencilEditorRenderedPointCount = stroke.points.length;
+        }
+      }
+
+      function schedulePencilEditorStrokeFrame() {
+        if (pencilEditorFrameRequest !== null) return;
+        pencilEditorFrameRequest = window.requestAnimationFrame(() => {
+          pencilEditorFrameRequest = null;
+          flushPencilEditorStrokeFrame();
+        });
       }
 
       function beginPencilEditorStroke(event) {
@@ -9659,34 +9687,55 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
         if (activePencilEditorPointerId !== null || activePencilEditorStroke) return;
         event.preventDefault();
         dismissKeyboardAndSelection();
+        const firstPoint = pointFromPencilEditorEvent(event);
+        if (!firstPoint) return;
         pencilEditorCanvas.setPointerCapture(event.pointerId);
         activePencilEditorPointerId = event.pointerId;
         activePencilEditorStroke = {
-          points: [pointFromPencilEditorEvent(event)],
+          points: [firstPoint],
           color: pencilEditorColor,
           size: pencilEditorSize,
           tool: pencilEditorEraser ? 'eraser' : 'pen',
           eraser: pencilEditorEraser
         };
-        renderPencilEditorCanvas();
+        pencilEditorRenderedPointCount = 0;
+        flushPencilEditorStrokeFrame();
       }
 
       function continuePencilEditorStroke(event) {
         if (event.pointerType !== 'pen' || !activePencilEditorStroke || event.pointerId !== activePencilEditorPointerId) return;
         event.preventDefault();
-        activePencilEditorStroke.points.push(pointFromPencilEditorEvent(event));
-        renderPencilEditorCanvas();
+        let coalesced = [];
+        try {
+          coalesced = typeof event.getCoalescedEvents === 'function' ? event.getCoalescedEvents() : [];
+        } catch {}
+        const samples = coalesced.length ? [...coalesced] : [event];
+        const lastSample = samples[samples.length - 1];
+        if (lastSample !== event && (lastSample.clientX !== event.clientX || lastSample.clientY !== event.clientY)) samples.push(event);
+        const points = activePencilEditorStroke.points;
+        for (const sample of samples) {
+          const point = pointFromPencilEditorEvent(sample);
+          const previous = points[points.length - 1];
+          if (point && (!previous || Math.hypot(point.x - previous.x, point.y - previous.y) > 0.00008)) points.push(point);
+        }
+        schedulePencilEditorStrokeFrame();
       }
 
       function finishPencilEditorStroke(event) {
         if (event.pointerType !== 'pen' || !activePencilEditorStroke || event.pointerId !== activePencilEditorPointerId) return;
         event.preventDefault();
+        const finalPoint = pointFromPencilEditorEvent(event);
+        const previousPoint = activePencilEditorStroke.points.at(-1);
+        if (finalPoint && previousPoint && Math.hypot(finalPoint.x - previousPoint.x, finalPoint.y - previousPoint.y) > 0.00008) {
+          activePencilEditorStroke.points.push(finalPoint);
+        }
+        flushPencilEditorStrokeFrame({ cancelAnimation: true });
         releasePointerCapture(pencilEditorCanvas, event.pointerId ?? activePencilEditorPointerId);
         activePencilEditorPointerId = null;
         pencilEditorStrokes.push(activePencilEditorStroke);
         activePencilEditorStroke = null;
+        pencilEditorRenderedPointCount = 0;
         pencilEditorRedoStack = [];
-        renderPencilEditorCanvas();
         updatePencilEditorToolState();
       }
 
@@ -9704,6 +9753,7 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
         pencilEditorRedoStack = [];
         activePencilEditorStroke = null;
         activePencilEditorPointerId = null;
+        pencilEditorRenderedPointCount = 0;
         pencilEditorOpen = true;
         pencilEditorOverlay.hidden = false;
         pencilEditorColorInput.value = pencilEditorColor;
@@ -9727,6 +9777,11 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
         pencilEditorOverlay.hidden = true;
         activePencilEditorStroke = null;
         activePencilEditorPointerId = null;
+        if (pencilEditorFrameRequest !== null) {
+          window.cancelAnimationFrame(pencilEditorFrameRequest);
+          pencilEditorFrameRequest = null;
+        }
+        pencilEditorRenderedPointCount = 0;
         pencilEditorTargetNoteId = null;
         pencilEditorBaselineSignature = '[]';
         setPencilInteractionLock(selectedNoteMode === 'pencil');
@@ -11989,9 +12044,9 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
   </script>
 
 <script src="notes/pdf-lib.min.js"></script>
-<script src="notes/notes-editor.js?v=1.23.5"></script>
-<link rel="stylesheet" href="inventory/inventory.css?v=1.23.5">
-<script src="inventory/inventory.js?v=1.23.5"></script>
+<script src="notes/notes-editor.js?v=1.23.6"></script>
+<link rel="stylesheet" href="inventory/inventory.css?v=1.23.6">
+<script src="inventory/inventory.js?v=1.23.6"></script>
 </body>
 </html>
 
