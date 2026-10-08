@@ -3392,7 +3392,7 @@ body:not(.fullscreen-mode) #editorView .image-thumb-title { padding: 3px 9px; bo
   #projectManagerView .project-card-name { overflow-wrap: anywhere; }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; } }
 </style>
-<link rel="stylesheet" href="notes/notes-editor.css?v=1.23.18">
+<link rel="stylesheet" href="notes/notes-editor.css?v=1.23.19">
 <style>
 /* Favorite affordances and tighter project card framing. */
 #projectManagerView .project-card {min-height:0;grid-template-rows:176px auto;}
@@ -4762,7 +4762,7 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
       const firebasePendingDeletesMetaKey = 'firebase-pending-deletes-v1';
       const firebasePendingRecordsMetaKey = 'firebase-pending-records-v1';
       const projectVersion = 2;
-      const APP_VERSION = '1.23.18';
+      const APP_VERSION = '1.23.19';
       const projectMigrationMetaKey = 'project-migration-v1';
       const floatingToolbarStorageKey = 'fisa-atelier-toolbar-position';
       const manualProjectExportedAtStorageKey = 'fisa-atelier-last-manual-export-at';
@@ -12186,9 +12186,9 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
   </script>
 
 <script src="notes/pdf-lib.min.js"></script>
-<script src="notes/notes-editor.js?v=1.23.18"></script>
-<link rel="stylesheet" href="inventory/inventory.css?v=1.23.18">
-<script src="inventory/inventory.js?v=1.23.18"></script>
+<script src="notes/notes-editor.js?v=1.23.19"></script>
+<link rel="stylesheet" href="inventory/inventory.css?v=1.23.19">
+<script src="inventory/inventory.js?v=1.23.19"></script>
 
 <style id="workspace-account-notes-layout-v1238">
   #workspaceNotes .workspace-notes-heading {
@@ -12769,6 +12769,42 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
   }
 </style><style id="inventory-primary-action-visibility-v12318">
   #workspaceInventory #workspaceInventoryAdd[hidden] {display:inline-flex!important}
+</style><style id="notes-inventory-background-polish-v12319">
+  /* Give the create-note action a clear, generous target without changing the toolbar's layout. */
+  #workspaceNotes .workspace-notes-heading>.workspace-notes-actions {
+    padding:5px;border:1px solid #dce7f2;border-radius:18px;
+    background:linear-gradient(145deg,#f4f8fc,#eaf2fa);
+    box-shadow:0 5px 14px rgba(41,76,112,.07);
+  }
+  #workspaceNotes #workspaceAddNote {
+    min-width:184px;min-height:54px;padding:0 22px!important;border-radius:14px!important;
+    font-size:.88rem!important;box-shadow:0 7px 16px rgba(41,91,142,.17)!important;
+  }
+  #workspaceNotes #workspaceAddNote svg {width:20px;height:20px}
+  /* Search is useful once a folder is open; the folder overview stays uncluttered. */
+  #workspaceInventory[data-inventory-view="folders"] .workspace-inventory-heading>.manager-search {display:none!important}
+  #workspaceInventory[data-inventory-view="folders"] .workspace-inventory-heading {
+    grid-template-columns:54px minmax(0,1fr) auto;
+    grid-template-areas:"icon copy actions";
+  }
+  #workspaceInventory[data-inventory-view="folder"] .workspace-inventory-heading>.manager-search {display:flex!important}
+  /* Soft layered curves add depth while keeping the familiar blue-gray workspace palette. */
+  body:has(#projectManagerView:not([hidden])) {
+    background-color:#eef2f5;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 520' preserveAspectRatio='none'%3E%3Cpath fill='%23e3edf7' fill-opacity='.70' d='M0 145C205 35 395 95 570 168c208 87 380 91 575 0 175-82 288-88 455-12V0H0Z'/%3E%3Cpath fill='%23f8fbfe' fill-opacity='.78' d='M0 236c210-103 385-63 575 16 214 89 377 83 576-2 170-73 300-87 449-20v290H0Z'/%3E%3Cpath fill='%23d7e5f2' fill-opacity='.30' d='M0 332c240-84 393-48 574 14 204 70 392 72 584 0 179-68 297-77 442-34v208H0Z'/%3E%3C/svg%3E"),
+      radial-gradient(ellipse at 78% 18%,rgba(255,255,255,.72),transparent 38%),
+      linear-gradient(145deg,#eef2f5,#f4f7fa 60%,#e9eff5);
+    background-repeat:no-repeat,no-repeat,no-repeat;
+    background-size:100% 410px,100% 100%,100% 100%;
+    background-position:top center,center,center;
+    background-attachment:fixed;
+  }
+  @media(max-width:620px) {
+    #workspaceNotes .workspace-notes-heading>.workspace-notes-actions {padding:3px;border-radius:15px}
+    #workspaceNotes #workspaceAddNote {min-width:150px;min-height:48px;padding:0 13px!important;font-size:.78rem!important}
+    #workspaceInventory[data-inventory-view="folders"] .workspace-inventory-heading {grid-template-columns:42px minmax(0,1fr) auto}
+  }
 </style></body>
 </html>
 
