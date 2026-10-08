@@ -3997,7 +3997,19 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
       #workspaceNotes .workspace-notes-actions .workspace-notes-account-chevron {display:none;}
       #workspaceNotes .workspace-notes-actions #workspaceAddNote {padding-inline:10px;font-size:12px;}
     }
-  </style>
+      #projectManagerView #pmCloudAccount {gap:9px;min-height:60px;padding:8px 10px;border-radius:13px;}
+    #projectManagerView .workspace-sync-avatar {width:36px;height:36px;flex:none;display:grid;place-items:center;overflow:hidden;border:1px solid #5c7591;border-radius:50%;background:linear-gradient(145deg,#e9f2fb,#cadbed);color:#315f91;font:700 14px/1 system-ui,sans-serif;}
+    #projectManagerView .workspace-sync-avatar img {width:100%;height:100%;object-fit:cover;}
+    #projectManagerView .workspace-sync-copy {display:grid;gap:4px;min-width:0;flex:1;}
+    #projectManagerView .workspace-sync-copy strong {overflow:hidden;color:#f5f8fb;font:650 11px/1.2 system-ui,sans-serif;text-overflow:ellipsis;white-space:nowrap;}
+    #projectManagerView .workspace-sync-copy small {display:flex;align-items:center;gap:6px;min-width:0;color:#c7d5e2;font:500 10px/1.2 system-ui,sans-serif;}
+    #projectManagerView .workspace-sync-copy small span {overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    #projectManagerView .workspace-sync-copy i {width:7px;height:7px;flex:none;border-radius:50%;background:#95a2af;}
+    #projectManagerView .workspace-sync-copy i[data-state="connected"] {background:#65c48b;}
+    #projectManagerView .workspace-sync-copy i[data-state="syncing"] {background:#7bb8ec;animation:notes-sync-pulse 1.25s ease-in-out infinite;}
+    #projectManagerView .workspace-sync-copy i[data-state="warning"] {background:#edbd55;}
+    #projectManagerView .workspace-sync-chevron {width:14px;height:14px;flex:none;fill:none;stroke:#aab9c8;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+</style>
 </head>
 <body>
   <div id="saveToast" class="save-toast" role="status" aria-live="polite" aria-atomic="true"></div>
@@ -4011,7 +4023,7 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
       </nav>
       <div class="workspace-sidebar-footer">
         <span class="workspace-footer-heading">Spațiul tău de lucru</span>
-        <button type="button" id="pmCloudAccount" class="workspace-sync-button"><span>☁️ Cont și sincronizare</span></button>
+        <button type="button" id="pmCloudAccount" class="workspace-sync-button" aria-label="Cont și sincronizare"><span class="workspace-sync-avatar"><img id="workspaceSyncPhoto" alt="" hidden><span id="workspaceSyncInitial">S</span></span><span class="workspace-sync-copy"><strong id="workspaceSyncName">Spațiul tău</strong><small><i id="workspaceSyncDot" aria-hidden="true"></i><span id="workspaceSyncStatus">Salvat pe acest dispozitiv</span></small></span><svg class="workspace-sync-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m7 4 6 6-6 6"/></svg></button>
       </div>
     </aside>
     <section class="project-manager-content">
@@ -4488,6 +4500,11 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
       const workspaceNotesAccountName = document.getElementById('workspaceNotesAccountName');
       const workspaceNotesAccountStatus = document.getElementById('workspaceNotesAccountStatus');
       const workspaceNotesAccountDot = document.getElementById('workspaceNotesAccountDot');
+      const workspaceSyncPhoto = document.getElementById('workspaceSyncPhoto');
+      const workspaceSyncInitial = document.getElementById('workspaceSyncInitial');
+      const workspaceSyncName = document.getElementById('workspaceSyncName');
+      const workspaceSyncStatus = document.getElementById('workspaceSyncStatus');
+      const workspaceSyncDot = document.getElementById('workspaceSyncDot');
       const cloudAccountDialog = document.getElementById('cloudAccountDialog');
       const cloudAccountStatus = document.getElementById('cloudAccountStatus');
       const cloudEmailInput = document.getElementById('cloudEmail');
@@ -4817,7 +4834,6 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
         return '💾 Salvat local';
       }
       function updateWorkspaceNotesAccountUi() {
-        if (!workspaceNotesAccountButton) return;
         const user = firebaseUser;
         const name = user?.displayName || user?.email || (googleDriveConnected ? 'Google Drive' : 'Spațiul tău');
         const photoUrl = typeof user?.photoURL === 'string' ? user.photoURL.trim() : '';
@@ -4840,24 +4856,32 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
         } else if (firebaseInitialized) {
           status = 'Conectează Google pentru sincronizare';
         }
-        workspaceNotesAccountName.textContent = name;
-        workspaceNotesAccountStatus.textContent = status;
-        workspaceNotesAccountDot.dataset.state = state;
-        workspaceNotesAccountInitial.textContent = (name.trim().charAt(0) || 'G').toLocaleUpperCase('ro-RO');
-        workspaceNotesAccountPhoto.onerror = () => {
-          workspaceNotesAccountPhoto.hidden = true;
-          workspaceNotesAccountInitial.hidden = false;
-        };
-        workspaceNotesAccountPhoto.hidden = !photoUrl;
-        workspaceNotesAccountInitial.hidden = Boolean(photoUrl);
-        if (photoUrl) workspaceNotesAccountPhoto.src = photoUrl;
-        else workspaceNotesAccountPhoto.removeAttribute('src');
-        workspaceNotesAccountButton.setAttribute('aria-label', name + '. ' + status + '. Deschide setările contului.');
+        const initial = (name.trim().charAt(0) || 'G').toLocaleUpperCase('ro-RO');
+        const cards = [
+          { button: workspaceNotesAccountButton, name: workspaceNotesAccountName, status: workspaceNotesAccountStatus, dot: workspaceNotesAccountDot, photo: workspaceNotesAccountPhoto, initial },
+          { button: cloudAccountButton, name: workspaceSyncName, status: workspaceSyncStatus, dot: workspaceSyncDot, photo: workspaceSyncPhoto, initial }
+        ];
+        for (const card of cards) {
+          if (!card.button) continue;
+          card.name.textContent = name;
+          card.status.textContent = status;
+          card.dot.dataset.state = state;
+          card.initial.textContent = initial;
+          card.photo.onerror = () => {
+            card.photo.hidden = true;
+            card.initial.hidden = false;
+          };
+          card.photo.hidden = !photoUrl;
+          card.initial.hidden = Boolean(photoUrl);
+          if (photoUrl) card.photo.src = photoUrl;
+          else card.photo.removeAttribute('src');
+          card.button.setAttribute('aria-label', name + '. ' + status + '. Deschide setările contului.');
+        }
       }
       function updateCloudAccountUi() {
         if (cloudAccountStatus) cloudAccountStatus.textContent = getCloudStatusMessage();
         updateWorkspaceNotesAccountUi();
-        if (cloudAccountButton) cloudAccountButton.innerHTML = '<span>' + getSyncIndicatorLabel() + '</span>';
+        if (cloudAccountButton && !workspaceSyncName) cloudAccountButton.innerHTML = '<span>Cont și sincronizare</span>';
         if (cloudLoginButton) { cloudLoginButton.hidden = Boolean(firebaseUser) || (googleDriveConnected && !googleDriveAuthorizationNeeded); cloudLoginButton.textContent = firebaseInitialized ? 'Conectează Google pentru sincronizare live' : (googleDriveConnected ? 'Reîmprospătează accesul Google Drive' : 'Conectează Google Drive'); }
         if (cloudSyncNowButton) cloudSyncNowButton.hidden = firebaseInitialized ? !firebaseUser : !googleDriveConnected;
         if (cloudUploadDeviceButton) cloudUploadDeviceButton.hidden = firebaseInitialized ? !firebaseUser : !googleDriveConnected;
