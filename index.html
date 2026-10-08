@@ -3392,7 +3392,7 @@ body:not(.fullscreen-mode) #editorView .image-thumb-title { padding: 3px 9px; bo
   #projectManagerView .project-card-name { overflow-wrap: anywhere; }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; } }
 </style>
-<link rel="stylesheet" href="notes/notes-editor.css?v=1.23.23">
+<link rel="stylesheet" href="notes/notes-editor.css?v=1.23.24">
 <style>
 /* Favorite affordances and tighter project card framing. */
 #projectManagerView .project-card {min-height:0;grid-template-rows:176px auto;}
@@ -4021,10 +4021,11 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
         <button type="button" id="workspaceNotesNav"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l3 3v15H6Z"/><path d="M9 10h6M9 14h6M9 18h4"/></svg>Notițe</button>
         <button type="button" id="workspaceInventoryNav"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5z"/><path d="m4.5 7.8 7.5 4.3 7.5-4.3M12 12v8.5M8 5.3l8 4.6"/></svg>Inventar</button>
       </nav>
+      <button type="button" id="workspaceAboutNav" class="workspace-about-button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>Despre aplicație</span></button>
       <div class="workspace-sidebar-footer">
         <span class="workspace-footer-heading">Cont și sincronizare</span>
         <button type="button" id="pmCloudAccount" class="workspace-sync-button" aria-label="Cont și sincronizare"><span class="workspace-sync-avatar"><img id="workspaceSyncPhoto" alt="" hidden><span id="workspaceSyncInitial">S</span></span><span class="workspace-sync-copy"><strong id="workspaceSyncName">Spațiul tău</strong><small><i id="workspaceSyncDot" aria-hidden="true"></i><span id="workspaceSyncStatus">Salvat pe acest dispozitiv</span></small></span><svg class="workspace-sync-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m7 4 6 6-6 6"/></svg></button>
-        <button type="button" id="workspaceAboutNav" class="workspace-about-button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>Despre aplicație</span></button>
+        
       </div>
     </aside>
     <section class="project-manager-content">
@@ -4791,7 +4792,7 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
       const firebasePendingDeletesMetaKey = 'firebase-pending-deletes-v1';
       const firebasePendingRecordsMetaKey = 'firebase-pending-records-v1';
       const projectVersion = 2;
-      const APP_VERSION = '1.23.23';
+      const APP_VERSION = '1.23.24';
       const projectMigrationMetaKey = 'project-migration-v1';
       const floatingToolbarStorageKey = 'fisa-atelier-toolbar-position';
       const manualProjectExportedAtStorageKey = 'fisa-atelier-last-manual-export-at';
@@ -12215,9 +12216,9 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
   </script>
 
 <script src="notes/pdf-lib.min.js"></script>
-<script src="notes/notes-editor.js?v=1.23.23"></script>
-<link rel="stylesheet" href="inventory/inventory.css?v=1.23.23">
-<script src="inventory/inventory.js?v=1.23.23"></script>
+<script src="notes/notes-editor.js?v=1.23.24"></script>
+<link rel="stylesheet" href="inventory/inventory.css?v=1.23.24">
+<script src="inventory/inventory.js?v=1.23.24"></script>
 
 <style id="workspace-account-notes-layout-v1238">
   #workspaceNotes .workspace-notes-heading {
@@ -12968,6 +12969,27 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
   }
   @media(max-width:390px){
     #projectManagerView .manager-view-controls{flex-wrap:wrap}
+  }
+</style>
+<style id="about-above-account-v12324">
+  /* About is its own destination, directly above the independent account card. */
+  #projectManagerView .workspace-nav{margin-bottom:auto}
+  #projectManagerView .workspace-about-button{
+    flex:0 0 auto;display:flex;width:100%;min-height:42px;justify-content:flex-start;gap:11px;
+    margin:0 0 10px;padding:9px 12px;border:1px solid transparent;border-radius:11px;
+    background:transparent;color:#d4dfeb;box-shadow:none;font-size:13px;font-weight:600;letter-spacing:0;
+  }
+  #projectManagerView .workspace-about-button svg{width:18px;height:18px;flex:0 0 auto}
+  #projectManagerView .workspace-about-button:hover:not(:disabled){transform:none;border-color:#ffffff1c;background:#ffffff0d;color:#fff;box-shadow:none}
+  #projectManagerView .workspace-about-button[aria-current="page"]{border-color:#eef3f8;background:#eef3f8;color:#1f3145;box-shadow:0 4px 12px rgba(9,16,25,.10)}
+  #projectManagerView .workspace-sidebar-footer{margin-top:0!important}
+  @media(max-width:800px){
+    #projectManagerView .workspace-nav{margin-bottom:0}
+    #projectManagerView .workspace-about-button{margin:14px 0 8px}
+  }
+  @media(max-width:700px){
+    #projectManagerView .workspace-about-button{min-height:42px;margin:14px 0 8px}
+    #projectManagerView .workspace-sidebar-footer{margin-top:0!important}
   }
 </style>
 </body>
