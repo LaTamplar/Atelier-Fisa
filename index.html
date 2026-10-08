@@ -3392,7 +3392,7 @@ body:not(.fullscreen-mode) #editorView .image-thumb-title { padding: 3px 9px; bo
   #projectManagerView .project-card-name { overflow-wrap: anywhere; }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; } }
 </style>
-<link rel="stylesheet" href="notes/notes-editor.css?v=1.23.26">
+<link rel="stylesheet" href="notes/notes-editor.css?v=1.23.27">
 <style>
 /* Favorite affordances and tighter project card framing. */
 #projectManagerView .project-card {min-height:0;grid-template-rows:176px auto;}
@@ -4792,7 +4792,7 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
       const firebasePendingDeletesMetaKey = 'firebase-pending-deletes-v1';
       const firebasePendingRecordsMetaKey = 'firebase-pending-records-v1';
       const projectVersion = 2;
-      const APP_VERSION = '1.23.26';
+      const APP_VERSION = '1.23.27';
       const projectMigrationMetaKey = 'project-migration-v1';
       const floatingToolbarStorageKey = 'fisa-atelier-toolbar-position';
       const manualProjectExportedAtStorageKey = 'fisa-atelier-last-manual-export-at';
@@ -12216,9 +12216,9 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
   </script>
 
 <script src="notes/pdf-lib.min.js"></script>
-<script src="notes/notes-editor.js?v=1.23.26"></script>
-<link rel="stylesheet" href="inventory/inventory.css?v=1.23.26">
-<script src="inventory/inventory.js?v=1.23.26"></script>
+<script src="notes/notes-editor.js?v=1.23.27"></script>
+<link rel="stylesheet" href="inventory/inventory.css?v=1.23.27">
+<script src="inventory/inventory.js?v=1.23.27"></script>
 
 <style id="workspace-account-notes-layout-v1238">
   #workspaceNotes .workspace-notes-heading {
@@ -13111,6 +13111,28 @@ body:not(.fullscreen-mode) #editorView #notesModeBtn.active:hover{background:var
     #workspaceInventory .inventory-manager-toolbar{padding:13px!important;border-radius:16px!important}
     #workspaceInventory .workspace-inventory-heading{grid-template-columns:42px minmax(0,1fr) auto;gap:10px}
     #workspaceInventory .manager-search{min-height:42px}
+  }
+</style>
+<style id="project-filter-grid-repair-v12327">
+  /* Keep the second-row filter and view controls in their named desktop grid areas. */
+  @media(min-width:1121px){
+    #projectManagerView .project-manager-heading>.project-status-filters,
+    #projectManagerView #workspaceNotes .workspace-notes-heading>.manager-notes-filters{
+      grid-column:1/4!important;grid-row:2!important
+    }
+    #projectManagerView .project-manager-heading>.manager-view-controls,
+    #projectManagerView #workspaceNotes .workspace-notes-heading>.manager-view-controls{
+      grid-column:4!important;grid-row:2!important
+    }
+  }
+  #projectManagerView #pmCloudAccount{min-height:62px;padding:9px 9px;gap:9px}
+  #projectManagerView .workspace-sync-avatar{width:36px;height:36px;flex:0 0 36px}
+  #projectManagerView .workspace-sync-copy{min-width:0}
+  #projectManagerView .workspace-sync-copy small{gap:4px;font-size:9px}
+  #projectManagerView .workspace-sync-copy small span{min-width:0;font-size:9px}
+  @media(max-width:700px){
+    #projectManagerView #pmCloudAccount{min-height:58px}
+    #projectManagerView .workspace-sync-avatar{width:34px;height:34px;flex-basis:34px}
   }
 </style>
 </body>
